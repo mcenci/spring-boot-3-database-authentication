@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+    <div>
+        <h1 th:text="${'Welcome:' + fullName}"> Welcome, John</h1>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Logout" />
+		</form>
+    </div>
+</body>
+</html>
