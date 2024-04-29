@@ -27,17 +27,18 @@ public class BulkAdminUser {
      * Init first user for login
      */
     public void initRootAdmin() {
-        String email = "mcenci";
+        String email = "mcenci@intesigroup.com";
         userRepository.findByUsername(email).orElseGet(() -> {
 
             User user = new User();
             user.setId(100L);
-            user.setUsername("admin");
+            user.setUsername("mcenci@intesigroup.com");
             user.setPassword(passwordEncoder.encode("password"));
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setPhone("+39123123123");
             user.setRole("ADMIN");
+            user.setEnabled(true);
             userRepository.save(user);
 
             LOGGER.info("Created root user: {}", user.getId());

@@ -11,3 +11,13 @@ spring:
     console:
       enabled: true
       path: /console
+  mail:
+    host: smtp
+    
+mail:
+  sender: mcenci@intesigroup.com
+  service-fqdn: http://localhost:8080
+logging:
+  level:
+    web: DEBUG
+    '[org.springframework.security]': DEBUG 

@@ -40,4 +40,7 @@ public class User {
 
     @Column(name = "role")
     private String role;
+    
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
 }

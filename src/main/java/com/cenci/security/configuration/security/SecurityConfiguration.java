@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,7 +53,7 @@ public class SecurityConfiguration {
         http.authenticationProvider(authenticationProvider());
          
         http.authorizeHttpRequests(auth -> auth
-        		.requestMatchers("/login", "/change-password").permitAll()
+        		.requestMatchers("/login", "/reset-password", "/change-password").permitAll()
             .anyRequest().authenticated()
             )
             .formLogin(login ->
@@ -74,4 +75,10 @@ public class SecurityConfiguration {
             );
          
         return http.build();
-    }  }
+    }  
+
+    @Bean
+    protected WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/js/**");
+    }
+}

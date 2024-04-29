@@ -1,5 +1,6 @@
 package com.cenci.security.service.impl;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,17 @@ public class UserServiceImpl implements UserService {
 				.role("USER")
 				.build();
 		return userRepository.save(user);
+	}
+
+	@Override
+	public User retrieve(Long userId) {
+		return userRepository
+				.findById(userId)
+				.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+	}
+
+	@Override
+	public void update(User user) {
+		userRepository.saveAndFlush(user);
 	}
 }

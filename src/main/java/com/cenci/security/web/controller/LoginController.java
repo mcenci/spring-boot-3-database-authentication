@@ -17,8 +17,4 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/change-password")
-    String changePassword(Model model) {
-        return "change-password";
-    }
 }
