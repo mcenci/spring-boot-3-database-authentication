@@ -39,9 +39,31 @@ public class BulkAdminUser {
             user.setPhone("+39123123123");
             user.setRole("ADMIN");
             user.setEnabled(true);
+            
             userRepository.save(user);
 
             LOGGER.info("Created root user: {}", user.getId());
+            return user;
+        });
+
+    }
+    
+    public void initDefaultUser() {
+        String email = "pippo@intesigroup.com";
+        userRepository.findByUsername(email).orElseGet(() -> {
+            
+            User user = new User();
+            user.setId(101L);
+            user.setUsername("pippo@intesigroup.com");
+            user.setPassword(passwordEncoder.encode("password"));
+            user.setFirstName("John");
+            user.setLastName("Doe");
+            user.setPhone("+39123123123");
+            user.setRole("USER");
+            user.setEnabled(true);
+            userRepository.save(user);
+            
+            LOGGER.info("Created default user: {}", user.getId());
             return user;
         });
 

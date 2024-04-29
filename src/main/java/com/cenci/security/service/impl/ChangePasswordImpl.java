@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.cenci.security.dao.entity.Token;
-import com.cenci.security.dao.entity.User;
 import com.cenci.security.service.ChangePassword;
 import com.cenci.security.service.TokenService;
 import com.cenci.security.service.UserService;
@@ -34,10 +32,10 @@ public class ChangePasswordImpl implements ChangePassword {
 		tokenService.check(token);
 		LOGGER.info("Token is still valid.");
 		
-		Token tk = tokenService.retireve(token);
+		var tk = tokenService.retireve(token);
 		LOGGER.info("Retrieved token from database for user: {}", tk.getUserId());
 		
-		User user = userService.retrieve(tk.getUserId());
+		var user = userService.retrieve(tk.getUserId());
 		LOGGER.info("Retrieved user: [{}] for change password operation.", user.getUsername());
 		
 		user.setPassword(passwordEncoder.encode(password));

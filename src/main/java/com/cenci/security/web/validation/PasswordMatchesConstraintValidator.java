@@ -1,15 +1,18 @@
 package com.cenci.security.web.validation;
 
+import org.springframework.stereotype.Component;
+
 import com.cenci.security.web.model.ChangePasswordFormData;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
+@Component
+public class PasswordMatchesConstraintValidator implements ConstraintValidator<PasswordMatches, Object> {
 
     @Override
     public void initialize(final PasswordMatches constraintAnnotation) {
-        //
+		ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override

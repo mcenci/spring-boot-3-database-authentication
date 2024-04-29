@@ -15,7 +15,10 @@ public class Application {
 
 	@Profile(value = "development")
 	@Bean
-    CommandLineRunner init(BulkAdminUser bulkAdminUser) {
-        return args -> bulkAdminUser.initRootAdmin();
-    }
+	CommandLineRunner init(BulkAdminUser bulkAdminUser) {
+		return args -> {
+			bulkAdminUser.initRootAdmin();
+			bulkAdminUser.initDefaultUser();
+		};
+	}
 }

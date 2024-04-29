@@ -11,11 +11,11 @@ import jakarta.validation.Payload;
 
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PasswordMatchesValidator.class)
+@Constraint(validatedBy = PasswordMatchesConstraintValidator.class)
 @Documented
 public @interface PasswordMatches {
 
-    String message() default "validation.passwordMatches";
+    String message() default "{validation.passwordMatches}";
 
     Class<?>[] groups() default {};
 

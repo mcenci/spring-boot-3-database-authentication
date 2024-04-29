@@ -35,7 +35,7 @@ public class TokenServiceImpl implements TokenService {
 
 	@Override
 	public void check(String token) throws TokenExpiredException, TokenExpiredException {
-		Token dbToken = tokenRepository
+		var dbToken = tokenRepository
 				.findById(UUID.fromString(token))
 				.orElseThrow(() -> new TokenNotFoundException("Token not found"));
 

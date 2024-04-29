@@ -1,5 +1,7 @@
 package com.cenci.security.dao.entity;
 
+import com.cenci.security.web.model.ProfileUserFormData;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,4 +45,12 @@ public class User {
     
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+    
+    public void fromProfileUser(ProfileUserFormData form) {
+    	this.setUsername(form.getUsername());
+    	this.setFirstName(form.getFirstName());
+    	this.setLastName(form.getLastName());
+    	this.setPhone(form.getPhone());
+//    	this.setEnable2FA(form.getEnable2FA()); 
+    }
 }

@@ -43,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
 		LOGGER.info("Processing {} for username: {}.", eventMessage.toString(), eventMessage.getUsername());
 
 
-		ResetPasswordMailMessage message =ResetPasswordMailMessage
+		var message =ResetPasswordMailMessage
 				.builder()
 				.data(eventMessage.getToken())
 				.username(eventMessage.getUsername())

@@ -9,13 +9,13 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Documented
-@Constraint(validatedBy = PasswordConstraintValidator.class)
-@Target({ ElementType.TYPE, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPassword {
+@Constraint(validatedBy = UniqueUsernameContraintValidator.class)
+@Documented
+public @interface UniqueUsername {
 
-    String message() default "{validation.validPassword}";
+    String message() default "{validation.uniqueUsername}";
 
     Class<?>[] groups() default {};
 

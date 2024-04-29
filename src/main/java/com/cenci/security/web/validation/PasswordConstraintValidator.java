@@ -12,14 +12,17 @@ import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
+import org.springframework.stereotype.Component;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+@Component
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
     @Override
-    public void initialize(ValidPassword arg0) {
+    public void initialize(final ValidPassword constraintAnnotation) {
+		ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override

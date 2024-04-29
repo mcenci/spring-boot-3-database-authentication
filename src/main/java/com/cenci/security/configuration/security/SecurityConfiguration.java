@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter
 import com.cenci.security.dao.repository.UserRepository;
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
 	@Autowired
@@ -54,6 +56,8 @@ public class SecurityConfiguration {
          
         http.authorizeHttpRequests(auth -> auth
         		.requestMatchers("/login", "/reset-password", "/change-password").permitAll()
+        		.requestMatchers("/users", "/users/register").hasRole("ADMIN")
+        		.requestMatchers("/users/detail**", "/users/me").hasAnyRole("ADMIN", "USER")
             .anyRequest().authenticated()
             )
             .formLogin(login ->
