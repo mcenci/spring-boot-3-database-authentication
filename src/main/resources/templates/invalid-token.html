@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<title>Invalid Token Page</title>
+	</head>
+	<body>
+		<h1>Link is not valid.</h1>
+		<div th:if="${#strings.equals(type, 'RESET_PASSWORD')}">
+			<p>You may ask a new link from <a th:href="@{/reset-password}">Reset Password</a> page.</p>
+		</div>
+		<div th:if="${#strings.equals(type, 'ACTIVATION')}">
+			<p>You may ask an administrator to sent another activation link.</p>
+		</div>
+
+	</body>
+</html>

@@ -123,7 +123,6 @@ public class UsersController {
 		userService.update(user);
 
 		redirectAttributes.addFlashAttribute("operationResult", "complete");
-		redirectAttributes.addFlashAttribute("userId", user.getId());
 		return "redirect:/users/detail/" + user.getId();
 	}
 

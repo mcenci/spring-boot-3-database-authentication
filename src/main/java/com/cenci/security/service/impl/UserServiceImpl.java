@@ -1,5 +1,6 @@
 package com.cenci.security.service.impl;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -7,22 +8,32 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cenci.security.dao.entity.TokenType;
 import com.cenci.security.dao.entity.User;
 import com.cenci.security.dao.repository.UserRepository;
+import com.cenci.security.event.VerifyRegisteredUserMailEvent;
+import com.cenci.security.service.TokenService;
 import com.cenci.security.service.UserService;
 import com.cenci.security.web.model.RegisterUserFormData;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+	private ApplicationEventPublisher eventPublisher;
+	
 	private UserRepository userRepository;
 
 	private final PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	private TokenService tokenService;
+	
+	public UserServiceImpl(ApplicationEventPublisher eventPublisher, UserRepository userRepository,
+			PasswordEncoder passwordEncoder, TokenService tokenService) {
 		super();
+		this.eventPublisher = eventPublisher;
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.tokenService = tokenService;
 	}
 
 	@Override
@@ -42,8 +53,12 @@ public class UserServiceImpl implements UserService {
 				.role("USER")
 				.build();
 		
-		//TODO send an event for user verification
-		return userRepository.save(user);
+		userRepository.save(user);
+		
+		var event = new VerifyRegisteredUserMailEvent(user.getUsername(), tokenService.generate(user.getId(), TokenType.ACTIVATION));
+		eventPublisher.publishEvent(event);
+		
+		return user;
 	}
 
 	@Override

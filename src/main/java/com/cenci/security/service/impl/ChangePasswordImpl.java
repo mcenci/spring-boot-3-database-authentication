@@ -42,7 +42,10 @@ public class ChangePasswordImpl implements ChangePassword {
 		user.setEnabled(Boolean.TRUE);
 		
 		userService.update(user);
-		LOGGER.info("Passoword updated for user: [{}].", user.getUsername());
+		LOGGER.info("Password updated for user: [{}].", user.getUsername());
+		
+		tokenService.delete(tk);
+		LOGGER.info("Removing consumed token");
 	}
 
 }

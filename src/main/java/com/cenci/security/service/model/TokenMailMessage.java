@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ResetPasswordMailMessage implements BaseMailMessage<Token> {
+public class TokenMailMessage implements BaseMailMessage<Token> {
 
 	private String username;
 	

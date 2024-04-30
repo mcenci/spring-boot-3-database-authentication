@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cenci.security.dao.entity.TokenType;
 import com.cenci.security.exception.TokenExpiredException;
 import com.cenci.security.exception.TokenNotFoundException;
 import com.cenci.security.service.ChangePassword;
@@ -16,9 +17,7 @@ import com.cenci.security.web.model.ChangePasswordFormData;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Controller
 public class ChangePasswordController {
 
@@ -26,13 +25,20 @@ public class ChangePasswordController {
 
 	private ChangePassword changePassword;
 	
+	public ChangePasswordController(TokenService tokenService, ChangePassword changePassword) {
+		super();
+		this.tokenService = tokenService;
+		this.changePassword = changePassword;
+	}
+
 	@GetMapping("/change-password")
 	public String changePassword(@Valid @RequestParam(name = "token") @Size(min = 36, max = 36) String token, Model model) {
 
 		try {
 			tokenService.check(token);
 		} catch (TokenExpiredException | TokenNotFoundException e) {
-			return "invalid-reset-password-token";
+			model.addAttribute("type", TokenType.RESET_PASSWORD);
+			return "invalid-token";
 		}
 		
 		model.addAttribute("formData", ChangePasswordFormData.builder().token(token).build());

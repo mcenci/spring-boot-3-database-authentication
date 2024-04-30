@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.cenci.security.dao.entity.Token;
+import com.cenci.security.dao.entity.TokenType;
 import com.cenci.security.dao.repository.TokenRepository;
 import com.cenci.security.exception.TokenExpiredException;
 import com.cenci.security.exception.TokenNotFoundException;
@@ -25,10 +26,11 @@ public class TokenServiceImpl implements TokenService {
 	private TokenRepository tokenRepository;
 	
 	@Override
-	public Token generate(Long userId) {
-		LOGGER.info("Generating unique token for user: [{}]", userId);
+	public Token generate(Long userId, TokenType type) {
+		LOGGER.info("Generating unique token [{}] for user: [{}]",type, userId);
 		return tokenRepository.save(Token.builder()
 				.userId(userId)
+				.type(type)
 				.expiration(OffsetDateTime.now().plus(Duration.ofDays(1)))
 				.build());
 	}
@@ -49,6 +51,11 @@ public class TokenServiceImpl implements TokenService {
 		return tokenRepository
 				.findById(UUID.fromString(token))
 				.orElseThrow(() -> new TokenNotFoundException("Token not found"));
+	}
+
+	@Override
+	public void delete(Token token) {
+		tokenRepository.delete(token);		
 	}
 
 }

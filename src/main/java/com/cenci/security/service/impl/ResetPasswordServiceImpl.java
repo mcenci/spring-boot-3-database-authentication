@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.cenci.security.dao.entity.TokenType;
 import com.cenci.security.dao.repository.UserRepository;
 import com.cenci.security.event.ResetPasswordMailEvent;
 import com.cenci.security.service.ResetPasswordService;
@@ -41,7 +42,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
         
 		// generate a token with expiration
         // save token to database binding to user id
-        var generatedToken = tokenService.generate(user.getId());
+        var generatedToken = tokenService.generate(user.getId(), TokenType.RESET_PASSWORD);
 
         // send email async
         eventPublisher.publishEvent(new ResetPasswordMailEvent(username, generatedToken));

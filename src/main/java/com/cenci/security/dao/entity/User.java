@@ -46,6 +46,9 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
     
+    @Column(name = "verified", nullable = false)
+    private boolean verified;
+    
     public void fromProfileUser(ProfileUserFormData form) {
     	this.setUsername(form.getUsername());
     	this.setFirstName(form.getFirstName());

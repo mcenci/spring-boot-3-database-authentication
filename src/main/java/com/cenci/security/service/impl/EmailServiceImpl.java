@@ -11,10 +11,11 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.cenci.security.configuration.properties.MailConfigurationProperties;
 import com.cenci.security.event.ResetPasswordMailEvent;
+import com.cenci.security.event.VerifyRegisteredUserMailEvent;
 import com.cenci.security.service.EmailService;
 import com.cenci.security.service.model.BaseMailMessage;
-import com.cenci.security.service.model.ResetPasswordMailMessage;
 import com.cenci.security.service.model.TemplateMail;
+import com.cenci.security.service.model.TokenMailMessage;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -43,13 +44,30 @@ public class EmailServiceImpl implements EmailService {
 		LOGGER.info("Processing {} for username: {}.", eventMessage.toString(), eventMessage.getUsername());
 
 
-		var message =ResetPasswordMailMessage
+		var message =TokenMailMessage
 				.builder()
 				.data(eventMessage.getToken())
 				.username(eventMessage.getUsername())
 				.messageSubject("Reset Password Link")
 				.linkUrl(composeUrl(TemplateMail.RESET_PASSWORD.linkPath, eventMessage.getToken().getToken().toString()))
 				.template(TemplateMail.RESET_PASSWORD)
+				.build();
+
+		this.send(message);
+	}
+	
+	@Override
+	public void sendVerifyUserMailMessage(VerifyRegisteredUserMailEvent eventMessage) throws MessagingException {
+		LOGGER.info("Processing {} for username: {}.", eventMessage.toString(), eventMessage.getUsername());
+
+
+		var message =TokenMailMessage
+				.builder()
+				.data(eventMessage.getToken())
+				.username(eventMessage.getUsername())
+				.messageSubject("User activation Link")
+				.linkUrl(composeUrl(TemplateMail.ACTIVATION.linkPath, eventMessage.getToken().getToken().toString()))
+				.template(TemplateMail.ACTIVATION)
 				.build();
 
 		this.send(message);

@@ -7,6 +7,7 @@
 	<body>
 		<div th:replace="~{fragments/general.html :: menu}"></div>
 		<h1>User Detail</h1>
+		<div th:if="${operationResult}" th:text="${operationResult}"></div>
 		<form th:object="${formData}" th:action="@{/users/detail}" method="post">
 			<input type="hidden" th:field="*{userId}" id="userId">
 			<div>

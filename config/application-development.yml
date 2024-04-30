@@ -19,5 +19,5 @@ mail:
   service-fqdn: http://localhost:8080
 logging:
   level:
-    web: DEBUG
+    web: INFO
     '[org.springframework.security]': DEBUG 
